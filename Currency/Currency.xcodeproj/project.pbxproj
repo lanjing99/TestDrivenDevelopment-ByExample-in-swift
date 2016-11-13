@@ -10,6 +10,8 @@
 		A01950291DD8029100B37314 /* Currency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A019501F1DD8029100B37314 /* Currency.framework */; };
 		A019502E1DD8029100B37314 /* CurrencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A019502D1DD8029100B37314 /* CurrencyTests.swift */; };
 		A01950301DD8029100B37314 /* Currency.h in Headers */ = {isa = PBXBuildFile; fileRef = A01950221DD8029100B37314 /* Currency.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A019503A1DD8060000B37314 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01950391DD8060000B37314 /* Currency.swift */; };
+		A019503B1DD8060000B37314 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01950391DD8060000B37314 /* Currency.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,7 @@
 		A01950281DD8029100B37314 /* CurrencyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurrencyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A019502D1DD8029100B37314 /* CurrencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTests.swift; sourceTree = "<group>"; };
 		A019502F1DD8029100B37314 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A01950391DD8060000B37314 /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				A01950221DD8029100B37314 /* Currency.h */,
+				A01950391DD8060000B37314 /* Currency.swift */,
 				A01950231DD8029100B37314 /* Info.plist */,
 			);
 			path = Currency;
@@ -148,6 +152,7 @@
 				TargetAttributes = {
 					A019501E1DD8029100B37314 = {
 						CreatedOnToolsVersion = 8.1;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 					};
 					A01950271DD8029100B37314 = {
@@ -196,6 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A019503A1DD8060000B37314 /* Currency.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A019503B1DD8060000B37314 /* Currency.swift in Sources */,
 				A019502E1DD8029100B37314 /* CurrencyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,6 +327,7 @@
 		A01950341DD8029100B37314 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -331,6 +339,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.waterwood.Currency;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -338,6 +347,7 @@
 		A01950351DD8029100B37314 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -356,6 +366,7 @@
 		A01950371DD8029100B37314 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = CurrencyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.waterwood.CurrencyTests;
@@ -367,6 +378,7 @@
 		A01950381DD8029100B37314 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = CurrencyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.waterwood.CurrencyTests;

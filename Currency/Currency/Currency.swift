@@ -7,3 +7,14 @@
 //
 
 import Foundation
+
+struct Dollar {
+    var amount : Int
+    init(_ amount: Int){
+        self.amount = amount
+    }
+    
+    mutating func times(_ multipier: Int) {
+        amount = 10
+    }
+}

@@ -33,4 +33,9 @@ class CurrencyTests: XCTestCase {
         }
     }
     
+    func testMultiplication() {
+        var five = Dollar(5)
+        five.times(2)
+        XCTAssert(10 == five.amount)
+    }
 }
