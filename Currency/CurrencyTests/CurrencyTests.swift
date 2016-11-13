@@ -42,4 +42,20 @@ class CurrencyTests: XCTestCase {
         XCTAssert(product.amount == 15)
         
     }
+    
+    func testEquality() {
+        XCTAssertTrue(Dollar(5) == Dollar(5))
+        XCTAssertFalse(Dollar(5) == Dollar(6))
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

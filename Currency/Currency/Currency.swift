@@ -17,4 +17,9 @@ struct Dollar {
     mutating func times(_ multipier: Int) -> Dollar{
         return Dollar(amount * multipier)
     }
+    
+}
+
+func == (left:Dollar, right:Dollar) -> Bool {
+    return left.amount == right.amount
 }
