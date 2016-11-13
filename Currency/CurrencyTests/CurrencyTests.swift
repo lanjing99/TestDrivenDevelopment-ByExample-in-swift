@@ -30,15 +30,20 @@ class CurrencyTests: XCTestCase {
     }
     
     func testFrancMultiplication() {
-        let five = Franc(5)
+        let five = Money.franc(5)
         XCTAssert(five.times(2) == Money.dollar(10))
         XCTAssert(five.times(3) == Money.dollar(15))
     }
     
-    func testEquality() {
-        XCTAssertTrue(Dollar(5) == Money.dollar(5))
-        XCTAssertFalse(Dollar(5) == Money.dollar(6))
-        XCTAssertFalse(Dollar(5) == Franc(5))
+//    func testEquality() {
+//        XCTAssertTrue(Dollar(5) == Money.dollar(5))
+//        XCTAssertFalse(Dollar(5) == Money.dollar(6))
+//        XCTAssertFalse(Dollar(5) == Franc(5))
+//    }
+    
+    func testCurrency() {
+        XCTAssertTrue("USD" == Money.dollar(1).currency)
+        XCTAssertTrue("CHF" == Money.franc(1).currency)
     }
 }
 

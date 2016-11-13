@@ -9,51 +9,39 @@
 import Foundation
 
 class Money {
+    //FIXME: amount need to be private, but fucntion == can NOT pass compile
     var amount : Int
-    init(_ amount: Int){
+    var currency :String
+    init(_ amount: Int, currency: String){
         self.amount = amount
+        self.currency = currency
     }
     
-    class func dollar(_ amount: Int) -> Dollar{
-        return Dollar(amount)
+    
+    class func dollar(_ amount: Int) -> Money{
+        return Money(amount, currency: "USD")
+    }
+    
+    class func franc(_ amount: Int) -> Money{
+        return Money(amount, currency: "CHF")
+    }
+    
+    func times(_ multipier: Int) -> Money{
+        return Money(amount * multipier, currency:currency)
     }
 }
 
-class Dollar : Money {
-    //FIXME: amount need to be private, but fucntion == can NOT pass compile
-//    var amount : Int
-//    init(_ amount: Int){
-//        self.amount = amount
-//    }
-    
-    func times(_ multipier: Int) -> Dollar{
-        return Dollar(amount * multipier)
-    }
-    
-}
 
-class Franc : Money{
-    //FIXME: amount need to be private, but fucntion == can NOT pass compile
-//    var amount : Int
-//    init(_ amount: Int){
-//        self.amount = amount
-//    }
-    
-    func times(_ multipier: Int) -> Dollar{
-        return Dollar(amount * multipier)
-    }
-    
-}
 
 
 func == (left:Money, right:Money) -> Bool {
     return type(of: left) ==  type(of: right) &&  left.amount == right.amount
 }
 
-func == (left:Dollar, right:Dollar) -> Bool {
-    return left.amount == right.amount
-}
-
-func == (left:Franc, right:Franc) -> Bool {
-    return left.amount == right.amount
-}
+//func == (left:Dollar, right:Dollar) -> Bool {
+//    return left.amount == right.amount
+//}
+//
+//func == (left:Franc, right:Franc) -> Bool {
+//    return left.amount == right.amount
+//}
