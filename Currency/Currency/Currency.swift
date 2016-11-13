@@ -13,6 +13,10 @@ class Money {
     init(_ amount: Int){
         self.amount = amount
     }
+    
+    class func dollar(_ amount: Int) -> Dollar{
+        return Dollar(amount)
+    }
 }
 
 class Dollar : Money {

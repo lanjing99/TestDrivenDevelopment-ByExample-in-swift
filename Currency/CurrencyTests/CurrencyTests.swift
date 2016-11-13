@@ -23,21 +23,21 @@ class CurrencyTests: XCTestCase {
     
     
     func testMultiplication() {
-        let five = Dollar(5)
-        XCTAssert(five.times(2) == Dollar(10))
-        XCTAssert(five.times(3) == Dollar(15))
+        let five = Money.dollar(5)
+        XCTAssert(five.times(2) == Money.dollar(10))
+        XCTAssert(five.times(3) == Money.dollar(15))
         
     }
     
     func testFrancMultiplication() {
         let five = Franc(5)
-        XCTAssert(five.times(2) == Dollar(10))
-        XCTAssert(five.times(3) == Dollar(15))
+        XCTAssert(five.times(2) == Money.dollar(10))
+        XCTAssert(five.times(3) == Money.dollar(15))
     }
     
     func testEquality() {
-        XCTAssertTrue(Dollar(5) == Dollar(5))
-        XCTAssertFalse(Dollar(5) == Dollar(6))
+        XCTAssertTrue(Dollar(5) == Money.dollar(5))
+        XCTAssertFalse(Dollar(5) == Money.dollar(6))
         XCTAssertFalse(Dollar(5) == Franc(5))
     }
 }
