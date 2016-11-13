@@ -45,6 +45,10 @@ class CurrencyTests: XCTestCase {
         XCTAssertTrue("USD" == Money.dollar(1).currency)
         XCTAssertTrue("CHF" == Money.franc(1).currency)
     }
+    
+    func testDifferentCurrency(){
+        XCTAssertFalse(Money.init(10, currency: "USD") == Money.init(10, currency: "CHF"))
+    }
 }
 
 

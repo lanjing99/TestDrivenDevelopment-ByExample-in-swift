@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Money {
+class Money : CustomStringConvertible {
     //FIXME: amount need to be private, but fucntion == can NOT pass compile
     var amount : Int
     var currency :String
@@ -29,13 +29,17 @@ class Money {
     func times(_ multipier: Int) -> Money{
         return Money(amount * multipier, currency:currency)
     }
+    
+    var description: String{
+        return "\(amount) \(currency)"
+    }
 }
 
 
 
 
 func == (left:Money, right:Money) -> Bool {
-    return type(of: left) ==  type(of: right) &&  left.amount == right.amount
+    return (left.currency == right.currency) && (left.amount == right.amount)
 }
 
 //func == (left:Dollar, right:Dollar) -> Bool {
