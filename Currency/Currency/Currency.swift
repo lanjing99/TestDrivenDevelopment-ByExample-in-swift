@@ -36,6 +36,12 @@ class Money : CustomStringConvertible {
 }
 
 
+<<<<<<< HEAD
+=======
+func == (left:Money, right:Money) -> Bool {
+    return type(of: left) ==  type(of: right) &&  left.amount == right.amount
+}
+>>>>>>> ba83b436d9d489013217bf62444b36b213ff210b
 
 
 func == (left:Money, right:Money) -> Bool {

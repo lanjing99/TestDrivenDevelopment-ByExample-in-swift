@@ -35,6 +35,7 @@ class CurrencyTests: XCTestCase {
         XCTAssert(five.times(3) == Money.dollar(15))
     }
     
+<<<<<<< HEAD
 //    func testEquality() {
 //        XCTAssertTrue(Dollar(5) == Money.dollar(5))
 //        XCTAssertFalse(Dollar(5) == Money.dollar(6))
@@ -48,6 +49,12 @@ class CurrencyTests: XCTestCase {
     
     func testDifferentCurrency(){
         XCTAssertFalse(Money.init(10, currency: "USD") == Money.init(10, currency: "CHF"))
+=======
+    func testEquality() {
+        XCTAssertTrue(Dollar(5) == Dollar(5))
+        XCTAssertFalse(Dollar(5) == Dollar(6))
+        XCTAssertFalse(Dollar(5) == Franc(5))
+>>>>>>> ba83b436d9d489013217bf62444b36b213ff210b
     }
 }
 
