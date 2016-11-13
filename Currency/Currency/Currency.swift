@@ -43,7 +43,7 @@ class Franc : Money{
 
 
 func == (left:Money, right:Money) -> Bool {
-    return left.amount == right.amount
+    return type(of: left) ==  type(of: right) &&  left.amount == right.amount
 }
 
 func == (left:Dollar, right:Dollar) -> Bool {
