@@ -8,12 +8,19 @@
 
 import Foundation
 
-struct Dollar {
-    //FIXME: amount need to be private, but fucntion == can NOT pass compile
+class Money {
     var amount : Int
     init(_ amount: Int){
         self.amount = amount
     }
+}
+
+class Dollar : Money {
+    //FIXME: amount need to be private, but fucntion == can NOT pass compile
+//    var amount : Int
+//    init(_ amount: Int){
+//        self.amount = amount
+//    }
     
     func times(_ multipier: Int) -> Dollar{
         return Dollar(amount * multipier)
@@ -21,12 +28,12 @@ struct Dollar {
     
 }
 
-struct Franc {
+class Franc : Money{
     //FIXME: amount need to be private, but fucntion == can NOT pass compile
-    var amount : Int
-    init(_ amount: Int){
-        self.amount = amount
-    }
+//    var amount : Int
+//    init(_ amount: Int){
+//        self.amount = amount
+//    }
     
     func times(_ multipier: Int) -> Dollar{
         return Dollar(amount * multipier)
@@ -34,6 +41,10 @@ struct Franc {
     
 }
 
+
+func == (left:Money, right:Money) -> Bool {
+    return left.amount == right.amount
+}
 
 func == (left:Dollar, right:Dollar) -> Bool {
     return left.amount == right.amount
