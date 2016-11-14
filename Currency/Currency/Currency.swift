@@ -10,6 +10,7 @@ import Foundation
 
 protocol Expression {
     func plus(addend:Money) -> Expression
+    func reduce(toCurrency currency: String) -> Money
 }
 
 class Money : CustomStringConvertible, Expression{
@@ -41,12 +42,35 @@ class Money : CustomStringConvertible, Expression{
     func plus(addend: Money) -> Expression {
         return Money.init(amount + addend.amount, currency: currency)
     }
+    
+    func reduce(toCurrency currency: String) -> Money {
+        return self
+    }
 }
 
 class Bank {
     
-    func reduce(_ sum : Expression, currency: String) -> Expression{
-        return sum
+    func reduce(_ sum : Expression, currency: String) -> Money{
+       return sum.reduce(toCurrency: currency)
+    }
+}
+
+class Sum : Expression{
+    var augent: Money
+    var addend: Money
+    
+    init(augent:Money, addend:Money){
+        self.augent = augent
+        self.addend = addend
+    }
+    
+    func reduce(toCurrency currency: String) -> Money {
+        //FIXME: only  handle same currency
+        return Money.init(augent.amount + addend.amount, currency: augent.currency)
+    }
+    
+    func plus(addend:Money) -> Expression {
+        return self
     }
 }
 

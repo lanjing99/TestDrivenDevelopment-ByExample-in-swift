@@ -59,6 +59,13 @@ class CurrencyTests: XCTestCase {
         let reduced = bank.reduce(sum, currency: "USD")
         XCTAssertTrue(Money.dollar(10) == reduced)
     }
+    
+    func testReduceSum() {
+        let sum = Sum.init(augent: Money.dollar(3), addend: Money.dollar(5))
+        let bank = Bank()
+        let result = bank.reduce(sum, currency: "USD")
+        XCTAssertTrue(Money.dollar(8) == result)
+    }
 }
 
 
