@@ -80,6 +80,18 @@ class CurrencyTests: XCTestCase {
         XCTAssertEqualWithAccuracy(bank.rate(fromCurrency: "USD", toCurrency: "RMB"), 6.0, accuracy: 0.0001, "one dollar equals 6 yuan")
         XCTAssertEqualWithAccuracy(bank.rate(fromCurrency: "RMB", toCurrency: "USD"), 1/6.0, accuracy: 0.0001, "one dollar equals 6 yuan")
     }
+    
+    func testMixedAddition(){
+        let fiveDollors = Money.dollar(5)
+        let tenFrancs = Money.franc(10);
+        let bank = Bank()
+        bank.addRate(fromCurrency: "CHF", toCurrency: "USD", withRate: 2)
+        let dollarSum = bank.reduce(fiveDollors.plus(addend: tenFrancs), toCurrency: "USD")
+        XCTAssertTrue(dollarSum == Money.dollar(10))
+        let francSum = bank.reduce(fiveDollors.plus(addend: tenFrancs), toCurrency: "CHF")
+        XCTAssertTrue(francSum == Money.franc(20))
+        
+    }
 }
 
 

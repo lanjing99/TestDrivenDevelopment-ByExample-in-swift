@@ -9,7 +9,7 @@
 import Foundation
 
 protocol Expression {
-    func plus(addend:Money) -> Expression
+    func plus(addend:Expression) -> Expression
     func reduce(toCurrency currency: String, withBank bank: Bank) -> Money
 }
 
@@ -39,8 +39,19 @@ class Money : CustomStringConvertible, Expression{
         return "\(amount) \(currency)"
     }
     
-    func plus(addend: Money) -> Expression {
-        return Money.init(amount + addend.amount, currency: currency)
+    func plus(addend: Expression) -> Expression {
+        if type(of:addend) == Sum.self {
+            return Sum(augent: self, addend: addend)
+        }else if type(of:addend) == Money.self {
+            let addend = addend as! Money
+            if self.currency == addend.currency {
+               return Money.init(amount + addend.amount, currency: currency)
+            }else{
+                //FIXME: 缺乏一个bank
+//                let addEndMoney = self.reduce(toCurrency: self.currency, withBank:  )
+            }
+        }
+        
     }
     
     func reduce(toCurrency currency: String, withBank bank: Bank) -> Money {
@@ -106,21 +117,22 @@ class Bank {
 }
 
 class Sum : Expression{
-    var augent: Money
-    var addend: Money
+    var augent: Expression
+    var addend: Expression
     
-    init(augent:Money, addend:Money){
+    init(augent:Expression, addend:Expression){
         self.augent = augent
         self.addend = addend
     }
     
     func reduce(toCurrency currency: String, withBank bank: Bank) -> Money {
         //FIXME: only  handle same currency
-        return Money.init(augent.amount + addend.amount, currency: augent.currency)
+        return self.augent.reduce(toCurrency: currency, withBank: bank).plus(addend:  self.addend.reduce(toCurrency: currency, withBank: bank))
+//        return Money.init(augent.amount + addend.amount, currency: augent.currency)
     }
     
-    func plus(addend:Money) -> Expression {
-        return self
+    func plus(addend:Expression) -> Expression {
+        return Sum(augent: self, addend: addend)
     }
 }
 
