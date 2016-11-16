@@ -10,28 +10,28 @@ import Foundation
 
 protocol Expression {
     func plus(addend:Money) -> Expression
-    func reduce(toCurrency currency: String) -> Money
+    func reduce(toCurrency currency: String, withBank bank: Bank) -> Money
 }
 
 class Money : CustomStringConvertible, Expression{
     //FIXME: amount need to be private, but fucntion == can NOT pass compile
-    var amount : Int
+    var amount : Float
     var currency :String
-    init(_ amount: Int, currency: String){
+    init(_ amount: Float, currency: String){
         self.amount = amount
         self.currency = currency
     }
     
     
-    class func dollar(_ amount: Int) -> Money{
+    class func dollar(_ amount: Float) -> Money{
         return Money(amount, currency: "USD")
     }
     
-    class func franc(_ amount: Int) -> Money{
+    class func franc(_ amount: Float) -> Money{
         return Money(amount, currency: "CHF")
     }
     
-    func times(_ multipier: Int) -> Money{
+    func times(_ multipier: Float) -> Money{
         return Money(amount * multipier, currency:currency)
     }
     
@@ -43,15 +43,65 @@ class Money : CustomStringConvertible, Expression{
         return Money.init(amount + addend.amount, currency: currency)
     }
     
-    func reduce(toCurrency currency: String) -> Money {
-        return self
+    func reduce(toCurrency currency: String, withBank bank: Bank) -> Money {
+        if self.currency == currency {
+            return self
+        }
+        
+        let rate = bank.rate(fromCurrency: self.currency, toCurrency: currency)
+        let money = Money.init(self.amount / rate, currency: currency)
+        return money
     }
+}
+
+func == (left:Money, right:Money) -> Bool {
+    //FIXME: amount is float, need an accuracy to compare?
+    return (left.currency == right.currency) && (left.amount == right.amount)
+}
+
+
+struct RatePair : Hashable{
+    let fromCurrency: String
+    let toCurrency: String
+    
+//    func hashValue() -> Int {
+//        return 0
+//    }
+    
+    var hashValue: Int {
+        return 0
+    }
+}
+
+func == (left:RatePair, right:RatePair) -> Bool {
+    return (left.fromCurrency == right.fromCurrency) && (left.toCurrency == right.toCurrency)
 }
 
 class Bank {
     
-    func reduce(_ sum : Expression, currency: String) -> Money{
-       return sum.reduce(toCurrency: currency)
+    private var ratesValue = [RatePair:Float]()
+    
+    func reduce(_ sum : Expression, toCurrency currency: String) -> Money{
+       return sum.reduce(toCurrency: currency, withBank: self)
+    }
+    
+    func addRate(fromCurrency from: String, toCurrency to: String, withRate rate: Float){
+        ratesValue[RatePair(fromCurrency:from, toCurrency:to)] = rate
+    }
+    
+    func rate(fromCurrency from: String, toCurrency to: String) -> Float{
+        var rate = ratesValue[RatePair(fromCurrency:from, toCurrency:to)]
+        //eg， if USD->CHF not exist，look for CHF -> USD rate
+        if rate == nil {
+            rate = ratesValue[RatePair(fromCurrency:to, toCurrency:from)]
+            if rate != nil {
+                rate = 1 / rate!
+            }else{
+                //FIXME: need throws exception here if not found an rate
+            }
+        }
+        
+        return rate!
     }
 }
 
@@ -64,7 +114,7 @@ class Sum : Expression{
         self.addend = addend
     }
     
-    func reduce(toCurrency currency: String) -> Money {
+    func reduce(toCurrency currency: String, withBank bank: Bank) -> Money {
         //FIXME: only  handle same currency
         return Money.init(augent.amount + addend.amount, currency: augent.currency)
     }
@@ -75,20 +125,9 @@ class Sum : Expression{
 }
 
 
-func == (left:Money, right:Money) -> Bool {
-    return (left.currency == right.currency) && (left.amount == right.amount)
-}
-
 //FIXME: compare according to real type,
 func == (left:Expression, right:Expression) -> Bool {
 //    return (left.currency == right.currency) && (left.amount == right.amount)
     return true
 }
 
-//func == (left:Dollar, right:Dollar) -> Bool {
-//    return left.amount == right.amount
-//}
-//
-//func == (left:Franc, right:Franc) -> Bool {
-//    return left.amount == right.amount
-//}

@@ -30,7 +30,7 @@ class CurrencyTests: XCTestCase {
     }
     
     func testFrancMultiplication() {
-        let five = Money.franc(5)
+        let five = Money.dollar(5)
         XCTAssert(five.times(2) == Money.dollar(10))
         XCTAssert(five.times(3) == Money.dollar(15))
     }
@@ -56,15 +56,29 @@ class CurrencyTests: XCTestCase {
         XCTAssertTrue(Money.dollar(10) == sum)
         
         let bank = Bank()
-        let reduced = bank.reduce(sum, currency: "USD")
+        let reduced = bank.reduce(sum, toCurrency: "USD")
         XCTAssertTrue(Money.dollar(10) == reduced)
     }
     
     func testReduceSum() {
         let sum = Sum.init(augent: Money.dollar(3), addend: Money.dollar(5))
         let bank = Bank()
-        let result = bank.reduce(sum, currency: "USD")
+        let result = bank.reduce(sum, toCurrency: "USD")
         XCTAssertTrue(Money.dollar(8) == result)
+    }
+    
+    func testReductDifferentCurrency(){
+        let bank = Bank()
+        bank.addRate(fromCurrency: "CHF", toCurrency:"USD", withRate:3)
+        XCTAssertTrue(Money.dollar(1) == bank.reduce(Money.franc(3), toCurrency: "USD"))
+        XCTAssertTrue(Money.franc(3) == bank.reduce(Money.dollar(1), toCurrency: "CHF"))
+    }
+    
+    func testBankRate(){
+        let bank = Bank()
+        bank.addRate(fromCurrency: "USD", toCurrency: "RMB", withRate: 6.0)
+        XCTAssertEqualWithAccuracy(bank.rate(fromCurrency: "USD", toCurrency: "RMB"), 6.0, accuracy: 0.0001, "one dollar equals 6 yuan")
+        XCTAssertEqualWithAccuracy(bank.rate(fromCurrency: "RMB", toCurrency: "USD"), 1/6.0, accuracy: 0.0001, "one dollar equals 6 yuan")
     }
 }
 
