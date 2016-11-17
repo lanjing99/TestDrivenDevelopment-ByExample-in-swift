@@ -40,18 +40,15 @@ class Money : CustomStringConvertible, Expression{
     }
     
     func plus(addend: Expression) -> Expression {
-        if type(of:addend) == Sum.self {
-            return Sum(augent: self, addend: addend)
-        }else if type(of:addend) == Money.self {
-            let addend = addend as! Money
-            if self.currency == addend.currency {
-               return Money.init(amount + addend.amount, currency: currency)
-            }else{
-                //FIXME: 缺乏一个bank
-//                let addEndMoney = self.reduce(toCurrency: self.currency, withBank:  )
-            }
+        return Sum(augent: self, addend: addend)
+    }
+    
+    func plus(addend: Money) -> Money{
+        if addend.currency == self.currency {
+            return Money(addend.amount + self.amount, currency: currency)
+        }else{
+            return self.plus(addend: addend)
         }
-        
     }
     
     func reduce(toCurrency currency: String, withBank bank: Bank) -> Money {
@@ -74,10 +71,6 @@ func == (left:Money, right:Money) -> Bool {
 struct RatePair : Hashable{
     let fromCurrency: String
     let toCurrency: String
-    
-//    func hashValue() -> Int {
-//        return 0
-//    }
     
     var hashValue: Int {
         return 0
@@ -126,9 +119,9 @@ class Sum : Expression{
     }
     
     func reduce(toCurrency currency: String, withBank bank: Bank) -> Money {
-        //FIXME: only  handle same currency
-        return self.augent.reduce(toCurrency: currency, withBank: bank).plus(addend:  self.addend.reduce(toCurrency: currency, withBank: bank))
-//        return Money.init(augent.amount + addend.amount, currency: augent.currency)
+        let amount1 = self.augent.reduce(toCurrency: currency, withBank: bank).amount
+        let amount2 = self.addend.reduce(toCurrency: currency, withBank: bank).amount
+        return Money.init(amount1 + amount2, currency:currency)
     }
     
     func plus(addend:Expression) -> Expression {
