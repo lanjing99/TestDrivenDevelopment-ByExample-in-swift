@@ -10,6 +10,7 @@ import Foundation
 
 protocol Expression {
     func plus(addend:Expression) -> Expression
+    func times(_ multipier: Float) -> Expression
     func reduce(toCurrency currency: String, withBank bank: Bank) -> Money
 }
 
@@ -31,7 +32,7 @@ class Money : CustomStringConvertible, Expression{
         return Money(amount, currency: "CHF")
     }
     
-    func times(_ multipier: Float) -> Money{
+    func times(_ multipier: Float) -> Expression{
         return Money(amount * multipier, currency:currency)
     }
     
@@ -40,16 +41,13 @@ class Money : CustomStringConvertible, Expression{
     }
     
     func plus(addend: Expression) -> Expression {
-        return Sum(augent: self, addend: addend)
-    }
-    
-    func plus(addend: Money) -> Money{
-        if addend.currency == self.currency {
+        if  let addend = addend as? Money , self.currency == addend.currency {
             return Money(addend.amount + self.amount, currency: currency)
         }else{
-            return self.plus(addend: addend)
+            return Sum(augent: self, addend: addend)
         }
     }
+    
     
     func reduce(toCurrency currency: String, withBank bank: Bank) -> Money {
         if self.currency == currency {
@@ -61,6 +59,7 @@ class Money : CustomStringConvertible, Expression{
         return money
     }
 }
+
 
 func == (left:Money, right:Money) -> Bool {
     //FIXME: amount is float, need an accuracy to compare?
@@ -126,6 +125,10 @@ class Sum : Expression{
     
     func plus(addend:Expression) -> Expression {
         return Sum(augent: self, addend: addend)
+    }
+    
+    func times(_ multipier: Float) -> Expression {
+        return Sum(augent: augent.times(multipier), addend: addend.times(multipier))
     }
 }
 

@@ -92,6 +92,36 @@ class CurrencyTests: XCTestCase {
         XCTAssertTrue(francSum == Money.franc(20))
         
     }
+    
+    func testSumPlusMoney(){
+        let fiveDollors = Money.dollar(5)
+        let tenFrancs = Money.franc(10);
+        let bank = Bank()
+        bank.addRate(fromCurrency: "CHF", toCurrency: "USD", withRate: 2)
+        let sum = Sum(augent: fiveDollors, addend: tenFrancs).plus(addend: fiveDollors)
+        XCTAssertTrue(Money.dollar(15) == sum.reduce(toCurrency: "USD", withBank: bank))
+    }
+    
+    func testSameCurrencyAdd(){
+        let fiveDollors = Money.dollar(5)
+        let sixDollors = Money.dollar(6)
+        let sum = fiveDollors.plus(addend: sixDollors)
+        XCTAssertTrue(sum is Money)
+    }
+    
+    func testSumMultify(){
+        let fiveDollors = Money.dollar(5)
+        let tenFrancs = Money.franc(10);
+        let bank = Bank()
+        bank.addRate(fromCurrency: "CHF", toCurrency: "USD", withRate: 2)
+        let sum = Sum(augent: fiveDollors, addend: tenFrancs)
+        let dollarSum = sum.reduce(toCurrency: "USD", withBank: bank)
+        XCTAssertTrue(dollarSum == Money.dollar(10))
+        
+        let multifySum = sum.times(2)
+        XCTAssertTrue(multifySum.reduce(toCurrency: "USD", withBank: bank) == Money.dollar(20))
+        
+    }
 }
 
 
