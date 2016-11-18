@@ -60,6 +60,31 @@ class Money : CustomStringConvertible, Expression{
     }
 }
 
+func +(left:Expression, right:Expression) -> Expression{
+    if let left = left as? Money, let right = right as? Money, left.currency == right.currency {
+        return Money.init(left.amount + right.amount, currency: left.currency)
+    }else{
+        return Sum(augent: left, addend: right)
+    }
+}
+
+func *(money:Money, times:Float) -> Money{
+    return Money.init(money.amount * times, currency: money.currency)
+}
+
+func *(sum:Sum, times:Float) -> Sum{
+    return Sum(augent: sum.augent * times, addend: sum.addend * times)
+}
+
+func *(expression: Expression, times: Float) -> Expression {
+    assert(expression is Money || expression is Sum)
+    if let money = expression as? Money {
+        return money * times
+    }else{
+        let sum = expression as! Sum
+        return sum * times
+    }
+}
 
 func == (left:Money, right:Money) -> Bool {
     //FIXME: amount is float, need an accuracy to compare?

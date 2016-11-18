@@ -109,6 +109,20 @@ class CurrencyTests: XCTestCase {
         XCTAssertTrue(sum is Money)
     }
     
+    func testSameCurrencyOperatorAdd(){
+        let fiveDollors = Money.dollar(5)
+        let sixDollors = Money.dollar(6)
+        let sum = fiveDollors + sixDollors
+        XCTAssertTrue(sum is Money)
+    }
+    
+    func testCurrencyOperatorAdd(){
+        let fiveDollors = Money.dollar(5)
+        let sixDollors = Money.dollar(6)
+        let sum = fiveDollors + sixDollors
+        XCTAssertTrue(sum == Money.dollar(11))
+    }
+    
     func testSumMultify(){
         let fiveDollors = Money.dollar(5)
         let tenFrancs = Money.franc(10);
@@ -122,6 +136,8 @@ class CurrencyTests: XCTestCase {
         XCTAssertTrue(multifySum.reduce(toCurrency: "USD", withBank: bank) == Money.dollar(20))
         
     }
+    
+    
 }
 
 
